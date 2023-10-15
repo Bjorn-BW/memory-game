@@ -3,6 +3,10 @@ import GameBoard from './Components/GameBoard';
 
 const MemoryGame = () => {
     const [score, setScore] = useState(0);
+    const updateScore = (isMatch) =>{
+        let updatedScore = isMatch ? score + 1 : score - 1;
+        setScore(updatedScore);
+    };
 
     // Vi delar upp generate och shuffle funktionerna för läsbarheten.
     const generateCards = () => {
@@ -11,8 +15,7 @@ const MemoryGame = () => {
         return cardDeck.map((color, index) =>({
             id:index,
             color: color,
-            isFlipped: false,
-            matchFound: false
+            isFlipped: false
         }))
     }; 
     // Att blanda något kan göras på många sätt detta är bara ett alternativ som använder sig av en populär algorithm, Knuth's.
@@ -25,13 +28,11 @@ const MemoryGame = () => {
           return cards;
     };
 
-    const updateScore = (isMatch) =>{
-        let updatedScore = isMatch ? score + 1 : score - 1;
-        setScore(updatedScore);
-    };
+    const [cards, setCards] = useState(shuffleCards(generateCards()));
+
     return(
         <div className="game-board">
-            <GameBoard generateCards={generateCards} shuffleCards={shuffleCards} updateScore={updateScore} />
+            <GameBoard cards={cards} setCards={setCards} updateScore={updateScore} />
             <h1>{score}</h1>
         </div>
     );
