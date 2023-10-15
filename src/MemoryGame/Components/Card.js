@@ -3,22 +3,25 @@ import React from "react";
 
 const Card = (props) => {
     const { 
-        color,
-        isFlipped,
-        id,
+        card,
         onCardClicked
     } = props;
 
     const onClick = (e) => {
-        onCardClicked(e, color, id);
+        if (!card.matchFound) {
+            onCardClicked(e, card);
+        }
     }
 
-    return(
+    return (
         <div className="card" onClick={onClick}>
-            <div className="card-outer" style={{ display: isFlipped ? "none" : "block" }}/>
-            <div className="card-inner" style={{ backgroundColor: color, display: isFlipped ? "block" : "none" }} />
-      </div>
-    );
+          {card.isFlipped ? (
+            <div className="card-inner" style={{ backgroundColor: card.color }} />
+          ) : (
+            <div className="card-outer" />
+          )}
+        </div>
+      );
 };
 
 export default Card;

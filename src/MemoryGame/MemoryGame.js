@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import GameBoard from './Components/GameBoard';
 
 const MemoryGame = () => {
+    const [score, setScore] = useState(0);
+
+    // Vi delar upp generate och shuffle funktionerna för läsbarheten.
     const generateCards = () => {
         const colors = ['#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#ff0000', '#9900ff', '#ff9900', '#663300'];
         const cardDeck = [...colors, ...colors];
         return cardDeck.map((color, index) =>({
             id:index,
             color: color,
-            isFlipped: false
+            isFlipped: false,
+            matchFound: false
         }))
     }; 
+    // Att blanda något kan göras på många sätt detta är bara ett alternativ som använder sig av en populär algorithm, Knuth's.
+    // Denna algorithm ska vara snabbare än tex riffelblandning https://medium.com/nerd-for-tech/shuffling-algorithms-and-randomization-to-improve-algorithm-s-runtime-47f7fc705df
     const shuffleCards = (cards) => {
         for (let i = cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -18,9 +24,15 @@ const MemoryGame = () => {
           }
           return cards;
     };
+
+    const updateScore = (isMatch) =>{
+        let updatedScore = isMatch ? score + 1 : score - 1;
+        setScore(updatedScore);
+    };
     return(
         <div className="game-board">
-            <GameBoard generateCards={generateCards} shuffleCards={shuffleCards}  />
+            <GameBoard generateCards={generateCards} shuffleCards={shuffleCards} updateScore={updateScore} />
+            <h1>{score}</h1>
         </div>
     );
 };
