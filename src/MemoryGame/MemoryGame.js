@@ -32,7 +32,7 @@ const MemoryGame = () => {
     return(
         <div data-testid="game-board"className="game-board">
             <GameBoard cards={cards} setCards={setCards} updateScore={updateScore} />
-            <h1>{score}</h1>
+            <h1 data-testid="score">{score}</h1>
         </div>
     );
 };
