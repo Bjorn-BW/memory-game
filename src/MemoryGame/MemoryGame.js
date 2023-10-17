@@ -4,11 +4,11 @@ import GameBoard from './Components/GameBoard';
 const MemoryGame = () => {
     const [score, setScore] = useState(0);
     const updateScore = (isMatch) =>{
-        let updatedScore = isMatch ? score + 1 : score - 1;
-        setScore(updatedScore);
+        setScore((currentScore) => {
+            return isMatch ? currentScore + 1 : currentScore - 1;
+        });
     };
 
-    // Vi delar upp generate och shuffle funktionerna för läsbarheten.
     const generateCards = () => {
         const colors = ['#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#ff0000', '#9900ff', '#ff9900', '#663300'];
         const cardDeck = [...colors, ...colors];
@@ -29,9 +29,8 @@ const MemoryGame = () => {
     };
 
     const [cards, setCards] = useState(shuffleCards(generateCards()));
-
     return(
-        <div className="game-board">
+        <div data-testid="game-board"className="game-board">
             <GameBoard cards={cards} setCards={setCards} updateScore={updateScore} />
             <h1>{score}</h1>
         </div>
